@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>新規登録メール</title>
+</head>
+<body>
+    <h1 style="text-align: center; color: blue;">認証番号</span>!</h1>
+    <P>いつもお世話になっております。この度は、当サービスにご登録いただき、誠にありがとうございます。
+        <br>
+        ご登録いただいた情報を確認し、以下の確認番号を発行いたしました。ご確認の上、必要に応じてお控えください。
+    </P>
+    <hr>
+    <h3>認証番号：<span style="color: red;" th:text="${tokenKey}"></h3>
+        <h3>＊有効期間：5分</h3>
+        <p>また、お客様のアカウントに関する重要な情報をお届けする際には、この確認番号が必要となりますので、大切に保管してください。</p>
+        <hr>
+        <h4 style="color: blue;">↓登録内容↓</h4>
+    <ul>
+        <li>ユーザー名:<span th:text="${username}"></span>：</li>
+        <li>パスワード：<span th:text="${password}"></span></li>
+        <li>名前：<span th:text="${name}"></span></li>
+        <li>生年月日：<span th:text="${birthday}"></span></li>
+        <li>性別：<span th:text="${sex}"></span></li>
+        <li>住所：<span th:text="${address}"></span></li>
+    </ul>
+    <hr>
+    <p>
+        何かご不明な点がございましたら、お気軽にお問い合わせください。<br>
+        引き続き、当サービスをご愛顧いただけますよう、よろしくお願い申し上げます。
+    </p>
+    <hr>
+    <h6 style="color: red;">これは自動送信メールです。このメールには返信しないでください。</h6>
+</body>
+</html>

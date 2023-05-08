@@ -4,8 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.LoginMapper">
 
-    <select id="selectLoginByUsername" resultType="com.example.demo.model.LoginModel" >
-    SELECT id,username, password,roles
-	FROM jwt WHERE username = #{username}
-    </select>
+	<select id="selectLoginByUsername"
+		resultType="com.example.demo.model.LoginModel">
+		SELECT *
+		FROM jwt WHERE username = #{username}
+	</select>
 </mapper>

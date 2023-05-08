@@ -43,10 +43,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
-                .antMatchers("v1/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/v1/api/public/**").permitAll()
+//                Swagger を設定
+                .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs", "/webjars/**").permitAll()
+                .antMatchers("/v1/api/admin/**").hasRole("ADMIN")
 //        		ユーザーページはログイン後に誰でも
-                .antMatchers("v1/api/user/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/v1/api/user/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated().and()
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

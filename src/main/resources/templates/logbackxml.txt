@@ -1,0 +1,32 @@
+
+<configuration>
+
+    <!-- Console appender -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File appender for controller logs -->
+    <appender name="controllerFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/controller.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/controller.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logger for controllers -->
+    <logger name="com.example.demo.controller" level="INFO">
+        <appender-ref ref="controllerFile" />
+    </logger>
+
+    <!-- Root logger -->
+    <root level="INFO">
+        <appender-ref ref="console" />
+    </root>
+
+</configuration>

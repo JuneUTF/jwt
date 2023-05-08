@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.model.LoginModel;
 import com.example.demo.service.LoginService;
 
-@Service
+@Service 
 public class UserService implements UserDetailsService {
  
     @Autowired
@@ -22,18 +22,15 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LoginModel user = userRepository.selectLoginByUsername(username);
- 
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
- System.out.println(new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user)));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user));
     }
  
     private Set<SimpleGrantedAuthority> getAuthority(LoginModel user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
             authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRoles()));
- 
         return authorities;
     }
 }
