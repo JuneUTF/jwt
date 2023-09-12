@@ -6,63 +6,49 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * トークンの生成と有効性を管理するクラスです。
+ */
 @Component
 public class TokenActive {
-//	// tọa mã khóa bí mật
-//		@Value("${myapp.secretKey}")
-//		private String secretKey;
-//	public String createToken(String username, Number tokennumber) {
-//		Claims claims = Jwts.claims();
-//		claims.put("username", username);
-//		claims.put("tokennumber", tokennumber);
-//		Date now = new Date();
-//		Date expirationDate = new Date(now.getTime() + 300 * 1000);
-//		return Jwts.builder().setClaims(claims).setIssuedAt(now).setExpiration(expirationDate)
-//				 .signWith(SignatureAlgorithm.HS512,secretKey).compact();
-//	}
-//
-//	public  String getUsername(String token) {
-//		Claims claims = getClaimsFromToken(token);
-//		return claims.get("username", String.class);
-//	}
-//
-//	public  Number getTokennumber(String token) {
-//		Claims claims = getClaimsFromToken(token);
-//		return claims.get("tokennumber", Number.class);
-//	}
-//
-//	public  boolean isTokenExpired(String token) {
-//		Date expiration = getExpirationDateFromToken(token);
-//		return expiration.before(new Date());
-//	}
-//
-//	private Claims getClaimsFromToken(String token) {
-//		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-//	}
-//
-//	private Date getExpirationDateFromToken(String token) {
-//		Claims claims = getClaimsFromToken(token);
-//		return claims.getExpiration();
-//	}
-	@Value("${myapp.timeKeyNumber}")
-	private int timeKeyNumber;
-//	tạo keynumber với từ đầu tiên là A là active user và R là lấy lại MK
-	public String creatKeyNumber() {
-		String keyNumber ="";
-		for (int i=0;i<6;i++) {
-			keyNumber+=new Random().nextInt(10);
-		}
-		keyNumber+="."+Instant.now();
-		return keyNumber;
-	}
-	public Boolean checkTimeToken(String timeToken) {
-	    Instant now = Instant.now();
-	    Instant t500s = Instant.parse(timeToken.substring(timeToken.indexOf(".") + 1));
-	    long diffInSeconds = now.getEpochSecond() - t500s.getEpochSecond();
-	    System.out.println(diffInSeconds);
-	    return diffInSeconds>timeKeyNumber;
-	}
-	
-	
-	
+    /**
+     * トークンの有効期限（秒）を示すプロパティです。
+     */
+    @Value("${myapp.timeKeyNumber}")
+    private int timeKeyNumber;
+
+    /**
+     * ランダムな数字と現在の時間スタンプを組み合わせてトークンキーを生成します。
+     *
+     * @return 生成されたトークンキー
+     */
+    public String creatKeyNumber() {
+        String keyNumber ="";
+        for (int i=0;i<6;i++) {
+        	// 0から9までのランダムな数字を生成してキーに追加
+            keyNumber+=new Random().nextInt(10); 
+        }
+        // 現在の時間をキーに追加
+        keyNumber+="."+Instant.now();
+        return keyNumber;
+    }
+
+    /**
+     * 与えられたトークンの有効期限を確認します。
+     *
+     * @param timeToken トークンの時間情報を含む文字列
+     * @return トークンが有効期限内である場合はtrue、それ以外はfalse
+     */
+    public Boolean checkTimeToken(String timeToken) {
+    	// 現在の時間を取得
+        Instant now = Instant.now(); 
+        // トークンから時間情報を抽出してInstantオブジェクトに変換
+        Instant t500s = Instant.parse(timeToken.substring(timeToken.indexOf(".") + 1));
+        // 現在時刻とトークンの時間の差を計算（秒単位）
+        long diffInSeconds = now.getEpochSecond() - t500s.getEpochSecond(); 
+        // 差をコンソールに出力
+        System.out.println(diffInSeconds); 
+        // 差が有効期限内かどうかを確認して結果を返す
+        return diffInSeconds < timeKeyNumber; 
+    }
 }

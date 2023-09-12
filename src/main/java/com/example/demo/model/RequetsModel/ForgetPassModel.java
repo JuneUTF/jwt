@@ -1,9 +1,11 @@
-package com.example.demo.model;
+package com.example.demo.model.RequetsModel;
 
 import lombok.Data;
 
 @Data
-public class KeyNumberModel {
+public class ForgetPassModel {
 	private String email;
 	private String keynumber;
+	
+
 }

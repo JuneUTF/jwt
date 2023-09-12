@@ -3,9 +3,7 @@ package com.example.demo.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -28,10 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-    }
+  
 
 
     @Bean
@@ -43,12 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/v1/api/public/**").permitAll()
+                .antMatchers("/v1/public/**").permitAll()
 //                Swagger を設定
                 .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs", "/webjars/**").permitAll()
-                .antMatchers("/v1/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/v1/admin/**").hasRole("ADMIN")
 //        		ユーザーページはログイン後に誰でも
-                .antMatchers("/v1/api/user/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/v1/user/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated().and()
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

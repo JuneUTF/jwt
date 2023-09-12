@@ -2,9 +2,9 @@ package com.example.demo.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.model.LoginModel;
+import com.example.demo.model.RequetsModel.LoginModel;
 
 @Mapper
 public interface LoginMapper {
-	LoginModel selectLoginByUsername(String username);
+	LoginModel selectLoginByUsername(String email);
 }

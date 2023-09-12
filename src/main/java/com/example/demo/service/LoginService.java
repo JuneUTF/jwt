@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.model.LoginModel;
+import com.example.demo.model.RequetsModel.LoginModel;
 
 public interface LoginService {
-	LoginModel selectLoginByUsername(String username);
+	LoginModel selectLoginByUsername(String email);
 }

@@ -5,8 +5,8 @@
 <mapper namespace="com.example.demo.mapper.LoginMapper">
 
 	<select id="selectLoginByUsername"
-		resultType="com.example.demo.model.LoginModel">
+		resultType="com.example.demo.model.RequetsModel.LoginModel">
 		SELECT *
-		FROM jwt WHERE username = #{username}
+		FROM jwt WHERE email = #{email}
 	</select>
 </mapper>

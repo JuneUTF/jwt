@@ -1,4 +1,4 @@
-package com.example.demo.model.reponseModel;
+package com.example.demo.model.ResponseModel;
 
 import lombok.Data;
 

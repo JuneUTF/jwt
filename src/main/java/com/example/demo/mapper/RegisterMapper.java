@@ -2,7 +2,7 @@ package com.example.demo.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.model.RegisterModel;
+import com.example.demo.model.RequetsModel.RegisterModel;
 
 @Mapper
 public interface RegisterMapper {

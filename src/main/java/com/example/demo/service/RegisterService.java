@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.RegisterModel;
+import com.example.demo.model.RequetsModel.RegisterModel;
 
 public interface RegisterService {
 	int registerUsername(RegisterModel registerModel);

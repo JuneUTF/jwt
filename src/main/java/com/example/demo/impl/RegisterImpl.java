@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.RegisterMapper;
-import com.example.demo.model.RegisterModel;
+import com.example.demo.model.RequetsModel.RegisterModel;
 import com.example.demo.service.RegisterService;
 @Service
 public class RegisterImpl implements RegisterService {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.RequetsModel.ForgetPassMapper">
+	
+	<select id="selectEmail"
+		resultType="com.example.demo.model.RequetsModel.ForgetPassModel">
+		SELECT keynumber FROM jwt WHERE email = #{email}
+	</select>
+	
+	<update id="updateKeyNumberByEmail" parameterType="com.example.demo.model.RequetsModel.ForgetPassModel">
+		UPDATE jwt SET keynumber = #{keynumber} WHERE email = #{email}
+	</update>
+	
+	<select id="selectKeyNumberByEmail"
+		resultType="com.example.demo.model.RequetsModel.ForgetPassModel">
+		SELECT keynumber FROM jwt WHERE email = #{email}
+	</select>
+	
+	
+</mapper>
