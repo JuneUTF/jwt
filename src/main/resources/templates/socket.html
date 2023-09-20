@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <h1>WebSocket Client</h1>
+
+    <div id="notification"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var socket = new SockJS('http://localhost:8080/v1/public/tsuchi'); // Đặt URL của máy chủ WebSocket của bạn ở đây
+        var stompClient = Stomp.over(socket);
+
+        // Đặt thông tin chứng thực nếu cần
+        let token = {
+            'Authorization': 'JuneUTF eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTUxODA0NjYsImVtYWlsIjoianVuZS51dGZAZ21haWwuY29tIn0.nmWYw3j3OfddGAnFpiRhCZPaocK1WaR8yFZT7f7NCDwKp8IZN3YuLXutwpUd4X6nMjMmn_TrOOHjFmhELx8TOQ'
+        };
+
+        stompClient.connect(token, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/admin/notification', function (message) { // Đặt URL đăng ký ở đây
+                var notificationDiv = document.getElementById('notification');
+                notificationDiv.innerHTML = 'Notification: ' + message.body;
+            });
+        });
+    </script>
+</body>
+</html>

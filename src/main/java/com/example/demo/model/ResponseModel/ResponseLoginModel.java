@@ -1,4 +1,5 @@
-package com.example.demo.model.RequetsModel;
+package com.example.demo.model.ResponseModel;
+
 
 import lombok.Data;
 
@@ -6,7 +7,7 @@ import lombok.Data;
  * ログインモデルクラスは、認証およびユーザー情報の保持に使用されます
  */
 @Data
-public class LoginModel {
+public class ResponseLoginModel {
 
     /**
      * ユーザー名
@@ -16,10 +17,6 @@ public class LoginModel {
     /**
      * パスワードはセキュリティのために保護され、JSON変換時に無視されます。
      */
-    private String password;
-    /**
-     * ユーザーの状況情報を示す文字列です。
-     */
     private String status;
 
     /**
@@ -27,4 +24,8 @@ public class LoginModel {
      */
     private String roles;
 
+    /**
+     * 認証トークンはログイン後に生成され、セッションの状態管理に使用されます。
+     */
+    private String token;
 }

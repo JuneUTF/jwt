@@ -18,6 +18,7 @@ import com.example.demo.jwt.TokenActive;
 import com.example.demo.model.HttpStatusCodeModel;
 import com.example.demo.model.RequetsModel.ForgetPassModel;
 import com.example.demo.model.RequetsModel.LoginModel;
+import com.example.demo.model.ResponseModel.ResponseLoginModel;
 import com.example.demo.model.ResponseModel.ResponseMessager;
 import com.example.demo.requetsUrl.PubLicURL;
 import com.example.demo.service.ForgetPassService;
@@ -39,7 +40,6 @@ public class PublicController {
 	@Autowired
 	private ForgetPassService activeAndForgotPassService;
 	private ResponseMessager responseMessager;
-
 	/**ログインAPIクラス
 	 * @return username,status,roles,token**/
 	@PostMapping(PubLicURL.loginURL)
@@ -53,17 +53,23 @@ public class PublicController {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			//LoginServiceインタフェース の selectLoginByUsername メソッドを呼び出してデータベース内のデータを取得します
 			LoginModel userDetails = userDetailsService.selectLoginByUsername(loginModel.getEmail());
+			ResponseLoginModel response = new ResponseLoginModel();
+			response.setEmail(userDetails.getEmail());
+			response.setRoles(userDetails.getRoles());
+			response.setStatus(userDetails.getStatus());
 			// jwtTokenUtilクラスのgenerateTokenメソッドを呼び出してトークンを作成します。
 			final String token = jwtTokenUtil.generateToken(userDetails);
 			//userDetails内にトークンを設定します。
-			userDetails.setToken(token);
+			response.setToken(token);
 			//レスポンスにuserDetailsを返します。
-			return ResponseEntity.status(HttpStatusCodeModel.OK).body(userDetails);
+			return ResponseEntity.status(HttpStatusCodeModel.OK).body(response);
+			
 			
 		} catch (AuthenticationException e) {
 			//アカウントのパスワードが間違っている場合は、メッセージとともに 401 (不正なデータ) を返します。
-			responseMessager.setMessager("パスワードまたはユーザー名が間違います。");
-			return ResponseEntity.status(HttpStatusCodeModel.UNAUTHORIZED).body(responseMessager);
+			ResponseMessager a = new ResponseMessager();
+			a.setMessager("パスワードまたはユーザー名が間違います。");
+			return ResponseEntity.status(HttpStatusCodeModel.UNAUTHORIZED).body(a);
 		}
 	}
 

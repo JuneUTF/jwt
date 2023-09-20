@@ -12,11 +12,9 @@ import com.example.demo.model.ResponseModel.ResponseMessager;
 @CrossOrigin
 @RequestMapping("/v1/user")
 public class UserController {
-
 //	ユーザー名の情報が取得
 	@GetMapping("/mypage")
 	public ResponseEntity<?> myPage(ResponseMessager responseMessager) {
-
 		return ResponseEntity.ok("myPage");
 	}
 

@@ -47,7 +47,6 @@ public class TokenActive {
         // 現在時刻とトークンの時間の差を計算（秒単位）
         long diffInSeconds = now.getEpochSecond() - t500s.getEpochSecond(); 
         // 差をコンソールに出力
-        System.out.println(diffInSeconds); 
         // 差が有効期限内かどうかを確認して結果を返す
         return diffInSeconds < timeKeyNumber; 
     }
