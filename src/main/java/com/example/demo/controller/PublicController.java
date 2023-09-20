@@ -39,7 +39,6 @@ public class PublicController {
 	private TokenActive tokenActive;
 	@Autowired
 	private ForgetPassService activeAndForgotPassService;
-	private ResponseMessager responseMessager;
 	/**ログインAPIクラス
 	 * @return username,status,roles,token**/
 	@PostMapping(PubLicURL.loginURL)
@@ -67,9 +66,9 @@ public class PublicController {
 			
 		} catch (AuthenticationException e) {
 			//アカウントのパスワードが間違っている場合は、メッセージとともに 401 (不正なデータ) を返します。
-			ResponseMessager a = new ResponseMessager();
-			a.setMessager("パスワードまたはユーザー名が間違います。");
-			return ResponseEntity.status(HttpStatusCodeModel.UNAUTHORIZED).body(a);
+			ResponseMessager responseMessager = new ResponseMessager();
+			responseMessager.setMessager("パスワードまたはユーザー名が間違います。");
+			return ResponseEntity.status(HttpStatusCodeModel.UNAUTHORIZED).body(responseMessager);
 		}
 	}
 
@@ -92,6 +91,7 @@ public class PublicController {
 			forgotPassModel.setKeynumber(keyNumber);
 			return ResponseEntity.ok("確認番号が作成されました。");
 		} catch (Exception e) {
+			ResponseMessager responseMessager = new ResponseMessager();
 			responseMessager.setMessager("Error");
 			return ResponseEntity.status(HttpStatusCodeModel.UNAUTHORIZED).body(responseMessager);
 		}
