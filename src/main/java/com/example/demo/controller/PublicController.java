@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.jwt.JwtTokenUtil;
 import com.example.demo.jwt.TokenActive;
 import com.example.demo.model.HttpStatusCodeModel;
-import com.example.demo.model.RequetsModel.ForgetPassModel;
+import com.example.demo.model.RequetsModel.ForgetPasswordRequets;
 import com.example.demo.model.RequetsModel.LoginModel;
 import com.example.demo.model.ResponseModel.ResponseLoginModel;
 import com.example.demo.model.ResponseModel.ResponseMessager;
@@ -38,7 +38,7 @@ public class PublicController {
 	@Autowired
 	private TokenActive tokenActive;
 	@Autowired
-	private ForgetPassService activeAndForgotPassService;
+	private ForgetPassService forgetPassService;
 	/**ログインAPIクラス
 	 * @return username,status,roles,token**/
 	@PostMapping(PubLicURL.loginURL)
@@ -75,23 +75,22 @@ public class PublicController {
 	/**パスワード再設定のキー番号の作成クラス
 	 * 
 	 * @param メール
-	 * @param 確認番号
 	 * @return　キー番号
 	 */
 	@PostMapping(PubLicURL.forgotpasswordURL)
-	public ResponseEntity<?> forgotpassword(@RequestBody ForgetPassModel forgotPassModel) {
+	public ResponseEntity<?> forgotpassword(@RequestBody ForgetPasswordRequets model) {
+		ResponseMessager responseMessager = new ResponseMessager();
 		try {
 			//メールの検証
-			//キー番号の生成
+			forgetPassService.selectEmail(model.getEmail()).getEmail();
+			//トークン許可作成
 			String keyNumber = tokenActive.creatKeyNumber();
-			System.out.println(keyNumber);
-//			keyNumberModel.setContact("");
-//		tiến hành ghi mã này vào csdl 
-//		gửi mã này cho email
-			forgotPassModel.setKeynumber(keyNumber);
-			return ResponseEntity.ok("確認番号が作成されました。");
+			//データベースにトークンの登録
+			//メールにトークンの送信
+			//メッセージを設定してデータを返します。
+			responseMessager.setMessager("メールに認証番号送信しました。");
+			return ResponseEntity.status(HttpStatusCodeModel.OK).body(responseMessager);
 		} catch (Exception e) {
-			ResponseMessager responseMessager = new ResponseMessager();
 			responseMessager.setMessager("Error");
 			return ResponseEntity.status(HttpStatusCodeModel.UNAUTHORIZED).body(responseMessager);
 		}
@@ -103,16 +102,21 @@ public class PublicController {
 	 * @return　Messager
 	 */
 	@PostMapping(PubLicURL.setpasswordURL)
-	public ResponseEntity<?> setPassword() {
+	public ResponseEntity<?> setPassword(@RequestBody ForgetPasswordRequets model) {
 		try {
-//			lấy email  trong csql
-//			so sánh 2 mã với nhau
-//			kiểm tra hạn của mã
+//			トークンの検証
+//			String token = forgetPassService.selectEmail(model.getEmail()).getToken();
+			//受け取りトークンとトークンの比較
+			model.getToken().equals("111");
+			System.out.println(model.getToken().equals("111"));
+			//トークン有効の検証
+			//2つパスワードの比較
+			//
 //			kiểm tra 2 pass gửi lên xem đúng không
 //			thay đổi pass và xóa mã trong csdl
-			return ResponseEntity.ok("forgotpassword");
+			return ResponseEntity.ok("OK");
 		} catch (Exception e) {
-			return ResponseEntity.ok("forgotpassword");
+			return ResponseEntity.ok("NG");
 		}
 //		lấy mã trong csql
 //		so sánh 2 mã với nhau

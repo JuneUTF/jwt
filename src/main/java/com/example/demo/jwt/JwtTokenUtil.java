@@ -58,7 +58,6 @@ public class JwtTokenUtil {
     private String doGenerate(Map<String, Object> claims) {
         Date now = new Date();
         Date expirationDate = new Date(now.getTime() + expirationTime * 1000);
-        System.out.println(secretKey);
 		return Jwts.builder().setClaims(claims).setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512,secretKey).compact();
     }
